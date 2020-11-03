@@ -1,0 +1,38 @@
+<form (ngSubmit)="onSubmit(f.value)" #f="ngForm" class="form-container">
+  <div>
+    <h1>{{'userProfile' | translate}}</h1>
+  </div>
+
+  <app-input [placeholder]="'fullName' | translate"
+             [isRequired]="true"
+             [errorMsg]="'Please enter you name'"
+             ngModel name="name"></app-input>
+
+  <app-input [placeholder]="'age' | translate"
+             [label]="'Age'"
+             [pattern]="'[0-9]'"
+             [errorMsg]="'validateAge' | translate"
+             ngModel name="age"></app-input>
+
+  <app-input [placeholder]="'email' | translate"
+             [isRequired]="true"
+             [errorMsg]="'validateEmail' | translate"
+             [pattern]="'[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}'"
+             ngModel name="email"></app-input>
+
+  <app-dropdown [dataType]="'country'"
+                [label]="'country' | translate"
+                [options]=countries
+  (selectOnChange)="onCountrySelect($event)"></app-dropdown>
+
+  <app-dropdown [dataType]="'province'"
+                [label]="'province' | translate"
+                [options]=provinces
+                (selectOnChange)="onProvinceSelect($event)"></app-dropdown>
+
+  <app-dropdown [dataType]="'city'"
+                [label]="'city' | translate"
+                [options]=cities></app-dropdown>
+
+  <button mat-flat-button color="primary" [disabled]="!f.valid" type="submit">Sign in</button>
+</form>

@@ -1,0 +1,12 @@
+{
+  "dynamicForm": "Dynamic Form",
+  "userProfile": "User Profile",
+  "fullName": "Full Name",
+  "age": "Age",
+  "email": "Email",
+  "validateEmail": "Please enter a valid email address",
+  "validateAge": "Please enter a valid age",
+  "country": "Country",
+  "province": "Province",
+  "city": "City"
+}

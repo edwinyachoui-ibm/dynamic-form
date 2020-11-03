@@ -1,0 +1,17 @@
+.form-label-group{
+  position: relative;
+
+  .v{
+    position: absolute;
+    top: 7px;
+    right: 10px;
+  }
+
+  .error{
+    color: red;
+  }
+}
+
+.mat-form-field {
+  width: 12vw;
+}

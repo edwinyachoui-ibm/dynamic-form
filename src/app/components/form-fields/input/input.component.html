@@ -1,0 +1,23 @@
+<div class="form-label-group">
+
+  <mat-form-field>
+    <label>
+      <input matInput
+             [type]="type" #input
+             (input)="onChange($event.target.value)"
+             (blur)="onTouched()"
+             [disabled]="disabled"
+             [placeholder]="placeholder">
+    </label>
+  </mat-form-field>
+
+  <div>
+    <span *ngIf="(isRequired && controlDir && controlDir.control.valid && controlDir.control.touched) || !isRequired && input.value.length>0">
+    </span>
+
+    <span class="error"
+          *ngIf="controlDir && !controlDir.control.valid
+     && controlDir.control.touched">{{errorMsg}}</span>
+  </div>
+</div>
+

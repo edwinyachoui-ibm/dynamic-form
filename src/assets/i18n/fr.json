@@ -1,0 +1,12 @@
+{
+  "dynamicForm": "Forme Dynamique",
+  "userProfile": "Profil de l'utilisateur",
+  "fullName": "Nom Complet",
+  "age": "Âge",
+  "email": "Couriel",
+  "validateEmail": "Veuillez saisir une couriel valide",
+  "validateAge": "Veuillez entrer un âge valide",
+  "country": "Pays",
+  "province": "Province",
+  "city": "Ville"
+}

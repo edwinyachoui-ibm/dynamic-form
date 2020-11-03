@@ -1,0 +1,5 @@
+<mat-form-field appearance="legacy">
+  <mat-select required [(value)]="defaultLang" (selectionChange)="changeLang($event.value)">
+    <mat-option *ngFor="let language of languages" [value]="language.code">{{language.value}}</mat-option>
+  </mat-select>
+</mat-form-field>
