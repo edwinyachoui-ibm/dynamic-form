@@ -1,0 +1,14 @@
+
+  <form [formGroup]="userProfileForm" (ngSubmit)="onSubmit(userProfileForm.value)">
+    <app-input placeholder="fullName" formControlName="fullName" [label]="'fullName' | translate"></app-input>
+    <section formGroupName="dropdownGroup">
+      <app-dropdown formControlName="country"
+                    [label]="'country' | translate"
+                    [data]="countries"></app-dropdown>
+      <app-dropdown formControlName="province"
+                    [label]="'province' | translate"
+                    [data]="provinces"></app-dropdown>
+    </section>
+    <button type="submit">{{'save' | translate}}</button>
+  </form>
+

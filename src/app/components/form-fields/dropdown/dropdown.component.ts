@@ -1,20 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DataModel} from '../../../model/dataModel';
-import {ControlValueAccessor} from '@angular/forms';
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.css']
+  styleUrls: ['./dropdown.component.css'],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => DropdownComponent),
+    multi: true,
+  }],
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor {
-  @Input() dataType: string;
+  @Input() data: any;
   @Input() label: string;
-  @Input() options: DataModel[];
-  @Input() formControlName: string;
-  @Output() selectOnChange: EventEmitter<number> = new EventEmitter<number>();
   private disabled: boolean;
-  private value: any;
+  private value: object;
+  keys = Object.keys;
+
 
   constructor() {
   }
@@ -22,16 +25,9 @@ export class DropdownComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
   }
 
-  onSelect(id): void {
-    this.selectOnChange.emit(id);
-  }
-  selectionChanged(event): void {
-    this.onChange(event.value);
-    this.onTouched();
-  }
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
-  onChange: any = () => { };
-  onTouched: any = () => { };
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
@@ -39,6 +35,7 @@ export class DropdownComponent implements OnInit, ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
+
   writeValue(value: any): void {
     this.value = value;
   }
