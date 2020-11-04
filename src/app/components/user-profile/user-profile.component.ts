@@ -11,7 +11,6 @@ export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
   countries = CountriesEnum;
   provinces = ProvincesEnum;
-  keys = Object.keys;
 
   constructor(private formBuilder: FormBuilder) {
   }
