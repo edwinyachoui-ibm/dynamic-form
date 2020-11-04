@@ -1,5 +1,7 @@
-<label>{{label}}</label>
+<label for="{{label}}">{{label}}</label>
   <select
+    name="{{label}}"
+    id="{{label}}"
     (input)="onChange($event.target.value)"
     (blur)="onTouched()">
     <option [ngValue]="null">Select a {{label}}</option>
