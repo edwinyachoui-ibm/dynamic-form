@@ -1,7 +1,6 @@
-
 export enum CountriesEnum {
   CANADA = 'CANADA',
-  US = 'USA'
+  US = 'US'
 }
 
 export enum ProvincesEnum {
@@ -13,12 +12,16 @@ export enum ProvincesEnum {
   TEXAS = 'TEXAS',
 }
 
-const map = new Map<CountriesEnum, ProvincesEnum[]>([
+
+export const mapProvinces = new Map<CountriesEnum, ProvincesEnum[]>([
   [CountriesEnum.CANADA, [ProvincesEnum.QUEBEC, ProvincesEnum.ONTARIO, ProvincesEnum.BC]],
   [CountriesEnum.US, [ProvincesEnum.CALIFORNIA, ProvincesEnum.FLORIDA, ProvincesEnum.TEXAS]]
 ]);
 
-console.log('Map:', map.get(CountriesEnum.CANADA));
+console.log('Map:', mapProvinces.get(CountriesEnum.US));
+
+
+
 
 
 

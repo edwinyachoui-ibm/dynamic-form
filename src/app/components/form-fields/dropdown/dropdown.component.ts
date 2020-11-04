@@ -12,11 +12,9 @@ import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular
   }],
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor {
-  @Input() data: any;
+  @Input() data: object;
   @Input() label: string;
-  private disabled: boolean;
   private value: object;
-  keys = Object.keys;
 
 
   constructor() {
@@ -38,9 +36,5 @@ export class DropdownComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: any): void {
     this.value = value;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
   }
 }

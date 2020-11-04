@@ -3,6 +3,6 @@
     (input)="onChange($event.target.value)"
     (blur)="onTouched()">
     <option [ngValue]="null">Select a {{label}}</option>
-    <option *ngFor="let entry of data | keyvalue" [value]="entry.value">{{entry.value}}</option>
+    <option *ngFor="let entry of data" [value]="entry.value">{{entry.value}}</option>
   </select>
 
