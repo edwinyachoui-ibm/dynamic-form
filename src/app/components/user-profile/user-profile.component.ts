@@ -25,8 +25,9 @@ export class UserProfileComponent implements OnInit {
 
     this.userProfileForm.get('dropdownGroup.country').valueChanges
       .subscribe(country => {
+        this.provinces = null;
         this.provinces = mapProvinces.get(CountriesEnum[country])
-          .map(province => ({value: province, label: province}));
+          .map(province =>  ({value: province, label: province} as MyOption));
       });
 
     this.userProfileForm.get('dropdownGroup.province').valueChanges
