@@ -1,3 +1,8 @@
-<select [formControl]="formCtrl">
-  <option *ngFor="let entry of keys(data)" [value]="entry">{{entry}}</option>
-</select>
+<label>{{label}}</label>
+  <select
+    (input)="onChange($event.target.value)"
+    (blur)="onTouched()">
+    <option [ngValue]="null">Select a {{label}}</option>
+    <option *ngFor="let entry of data | keyvalue" [value]="entry.value">{{entry.value}}</option>
+  </select>
+

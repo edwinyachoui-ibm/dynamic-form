@@ -12,10 +12,10 @@ import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular
   }],
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor {
-  @Input() formCtrl: AbstractControl;
   @Input() data: any;
+  @Input() label: string;
   private disabled: boolean;
-  private value: any;
+  private value: object;
   keys = Object.keys;
 
 
@@ -25,15 +25,8 @@ export class DropdownComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
   }
 
-  selectionChanged(event): void {
-    this.onChange(event.value);
-    this.onTouched();
-  }
-
-  onChange: any = () => {
-  };
-  onTouched: any = () => {
-  };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   registerOnChange(fn: any): void {
     this.onChange = fn;

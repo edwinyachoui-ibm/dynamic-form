@@ -1,0 +1,10 @@
+form, section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+app-input, app-dropdown {
+  margin: 2rem 0;
+}
