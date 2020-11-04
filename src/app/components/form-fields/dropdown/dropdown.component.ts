@@ -15,6 +15,7 @@ export class DropdownComponent implements OnInit, ControlValueAccessor {
   @Input() data: object;
   @Input() label: string;
   private value: object;
+  fieldId = `id-${+(new Date())}`;
 
 
   constructor() {
