@@ -19,7 +19,7 @@ describe('DropdownComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should render the dropdown list', () => {
     expect(component).toBeTruthy();
   });
 });

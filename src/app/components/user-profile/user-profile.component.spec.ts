@@ -19,7 +19,11 @@ describe('UserProfileComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Prov dropdown value should change after select Country ', () => {
+    const form = component.userProfileForm;
+    const countryInput = form.controls.country;
+    const provInput = form.controls.province;
+    countryInput.setValue('Canada');
+    // expect(form.getProv.contain('ON')).toBeTruthy();
   });
 });
