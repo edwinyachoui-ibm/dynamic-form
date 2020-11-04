@@ -1,5 +1,6 @@
-<label>{{label}}</label>
-<input [type]="type" #input
+<label for="{{fieldId}}">{{label}}</label>
+<input id="{{fieldId}}"
+       [type]="type"
        (input)="onChange($event.target.value)"
        (blur)="onTouched()"
        [disabled]="disabled"

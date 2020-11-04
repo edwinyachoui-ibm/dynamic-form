@@ -20,6 +20,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   @Input() label: string = null;
   @Input() placeholder: string;
   @Input() errorMsg: string;
+  fieldId = `id-${+(new Date())}`;
   private value: object;
 
   constructor() {

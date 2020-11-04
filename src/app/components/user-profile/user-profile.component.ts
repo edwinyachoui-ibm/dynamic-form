@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CountriesEnum, ProvincesEnum} from '../../data/data';
+import {CountriesEnum, mapProvinces, ProvincesEnum} from '../../data/data';
+import {MyOption} from '../../model/MyOption';
 
 @Component({
   selector: 'app-user-profile',
@@ -9,8 +10,9 @@ import {CountriesEnum, ProvincesEnum} from '../../data/data';
 })
 export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
-  countries = CountriesEnum;
-  provinces = ProvincesEnum;
+  countries = Object.keys(CountriesEnum).map(key => ({value: CountriesEnum[key], label: key} as MyOption));
+  provinces: MyOption[];
+  selectedCountry: string;
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -23,7 +25,12 @@ export class UserProfileComponent implements OnInit {
       .subscribe(fullName => console.log('Full name value changed: ', fullName));
 
     this.userProfileForm.get('dropdownGroup.country').valueChanges
-      .subscribe(country => console.log('Country value changed: ', country));
+      .subscribe(country => {
+        this.selectedCountry !== country ? this.userProfileForm.get('dropdownGroup.province').reset() : this.selectedCountry = country;
+        this.userProfileForm.get('dropdownGroup.province').patchValue('');
+        this.provinces = mapProvinces.get(CountriesEnum[country])
+          .map(province =>  ({value: province, label: province} as MyOption));
+      });
 
     this.userProfileForm.get('dropdownGroup.province').valueChanges
       .subscribe(province => console.log('Province value changed: ', province));
