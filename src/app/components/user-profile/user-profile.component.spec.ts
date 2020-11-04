@@ -25,5 +25,6 @@ describe('UserProfileComponent', () => {
     const provInput = form.controls.province;
     countryInput.setValue('Canada');
     // expect(form.getProv.contain('ON')).toBeTruthy();
+    // expect(form.getProv.contain('CALIFORNIA')).toBeFalsy();
   });
 });
