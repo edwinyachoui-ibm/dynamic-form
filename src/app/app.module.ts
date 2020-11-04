@@ -13,9 +13,9 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { InputComponent } from './components/form-fields/input/input.component';
-import { FormExampleComponent } from './components/form-example/form-example.component';
 import {MatInputModule} from '@angular/material/input';
 import { DropdownComponent } from './components/form-fields/dropdown/dropdown.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -27,8 +27,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppComponent,
     LanguageComponent,
     InputComponent,
-    FormExampleComponent,
     DropdownComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

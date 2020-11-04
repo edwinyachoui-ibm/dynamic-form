@@ -1,0 +1,12 @@
+<div>
+  <form [formGroup]="userProfileForm" (ngSubmit)="onSubmit(userProfileForm.value)" novalidate>
+    <input placeholder="fullName" formControlName="fullName">
+    <section formGroupName="dropdownGroup">
+      <app-dropdown [formCtrl]="userProfileForm.get('dropdownGroup.country')"
+                    [data]="countries"></app-dropdown>
+      <app-dropdown [formCtrl]="userProfileForm.get('dropdownGroup.province')"
+                    [data]="provinces"></app-dropdown>
+    </section>
+    <button type="submit">Save</button>
+  </form>
+</div>
