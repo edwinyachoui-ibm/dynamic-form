@@ -12,6 +12,7 @@ export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
   countries = Object.keys(CountriesEnum).map(key => ({value: CountriesEnum[key], label: key} as MyOption));
   provinces: MyOption[];
+  selectedCountry: string;
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -25,7 +26,8 @@ export class UserProfileComponent implements OnInit {
 
     this.userProfileForm.get('dropdownGroup.country').valueChanges
       .subscribe(country => {
-        this.provinces = null;
+        this.selectedCountry !== country ? this.userProfileForm.get('dropdownGroup.province').reset() : this.selectedCountry = country;
+        this.userProfileForm.get('dropdownGroup.province').patchValue('');
         this.provinces = mapProvinces.get(CountriesEnum[country])
           .map(province =>  ({value: province, label: province} as MyOption));
       });
