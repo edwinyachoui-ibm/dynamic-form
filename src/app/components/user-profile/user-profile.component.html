@@ -11,7 +11,7 @@
              [isRequired]="true"
              [hasError]="getLastName().invalid && getLastName().touched"
              [errorMsg]="'Error Last Name'"
-             [hidden]="getFirstName().invalid"></app-input>
+             *ngIf="getFirstName().valid"></app-input>
   <section formGroupName="dropdownGroup">
     <app-dropdown formControlName="country"
                   [label]="'country' | translate"
@@ -19,14 +19,14 @@
                   [isRequired]="true"
                   [hasError]="getCountry().invalid && getCountry().touched"
                   [errorMsg]="'Error Country'"
-                  [hidden]="getLastName().invalid"></app-dropdown>
+                  *ngIf="getLastName().valid"></app-dropdown>
     <app-dropdown formControlName="province"
                   [label]="'province' | translate"
                   [data]="provinces"
                   [isRequired]="true"
                   [hasError]="getProvince().invalid && getProvince().touched"
                   [errorMsg]="'Error Province'"
-                  [hidden]="getCountry().invalid"></app-dropdown>
+                  *ngIf="getCountry().valid"></app-dropdown>
   </section>
   <button type="submit" [disabled]="userProfileForm.invalid">{{'save' | translate}}</button>
 </form>
