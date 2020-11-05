@@ -1,7 +1,8 @@
 {
   "dynamicForm": "Forme Dynamique",
   "userProfile": "Profil de l'utilisateur",
-  "fullName": "Nom Complet",
+  "firstName": "Prénom",
+  "lastName": "Nom de famille",
   "age": "Âge",
   "email": "Couriel",
   "validateEmail": "Veuillez saisir une couriel valide",

@@ -6,4 +6,7 @@
     <option [ngValue]="null">Select a {{label}}</option>
     <option *ngFor="let entry of data" [value]="entry.value">{{entry.value}}</option>
   </select>
-
+<div>
+  <span class="error"
+        *ngIf="hasError">{{errorMsg}}</span>
+</div>

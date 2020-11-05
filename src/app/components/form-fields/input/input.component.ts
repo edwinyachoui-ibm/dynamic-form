@@ -1,5 +1,5 @@
 import {Component, ElementRef, forwardRef, Input, OnInit, Self, ViewChild} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, Validators, ValidatorFn} from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -11,34 +11,36 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
     multi: true,
   }],
 })
-export class InputComponent implements ControlValueAccessor, OnInit {
-
-  @ViewChild('input') input: ElementRef;
-  disabled;
-
+export class InputComponent implements ControlValueAccessor, OnInit, Validators {
   @Input() type = 'text';
   @Input() label: string = null;
   @Input() placeholder: string;
+  @Input() isRequired = false;
+  @Input() hasError: boolean;
   @Input() errorMsg: string;
   fieldId = `id-${+(new Date())}`;
   private value: object;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 
-  onChange(event): void { }
+  onChange(event): void {
+  }
 
-  onTouched(): void { }
+  onTouched(): void {
+  }
 
   writeValue(value: any): void {
     this.value = value;
   }
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
+
 }

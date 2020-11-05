@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CountriesEnum, mapProvinces, ProvincesEnum} from '../../data/data';
 import {MyOption} from '../../model/MyOption';
 
@@ -10,26 +10,32 @@ import {MyOption} from '../../model/MyOption';
 })
 export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
-  countries = Object.keys(CountriesEnum).map(key => ({value: CountriesEnum[key], label: key} as MyOption));
-  provinces: MyOption[];
-  selectedCountry: string;
+  countries: MyOption<CountriesEnum, CountriesEnum>[];
+  provinces: MyOption<ProvincesEnum, ProvincesEnum>[];
+  displayFields: Array<object>;
 
   constructor(private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    console.log('Countries: ', this.countries);
-    console.log('Provinces: ', this.provinces);
+    this.countries = [{value: CountriesEnum.CANADA, label: CountriesEnum.CANADA},
+      {label: CountriesEnum.US, value: CountriesEnum.US}];
     this.userProfileForm = this.createFormGroup();
-    this.userProfileForm.get('fullName').valueChanges
-      .subscribe(fullName => console.log('Full name value changed: ', fullName));
+    this.getFirstName().valueChanges
+      .subscribe(firstName => console.log('Full name value changed: ', firstName));
 
     this.userProfileForm.get('dropdownGroup.country').valueChanges
       .subscribe(country => {
-        this.selectedCountry !== country ? this.userProfileForm.get('dropdownGroup.province').reset() : this.selectedCountry = country;
-        this.userProfileForm.get('dropdownGroup.province').patchValue('');
-        this.provinces = mapProvinces.get(CountriesEnum[country])
-          .map(province =>  ({value: province, label: province} as MyOption));
+        if (country) {
+          this.userProfileForm.get('dropdownGroup.province').patchValue('');
+          console.log('CountriesEnum', CountriesEnum);
+          console.log('country', country);
+          this.provinces = mapProvinces.get(country)
+            .map(province => ({value: province, label: province}));
+          console.log('this.provinces', this.provinces);
+        } else {
+          console.log('No country');
+        }
       });
 
     this.userProfileForm.get('dropdownGroup.province').valueChanges
@@ -42,12 +48,29 @@ export class UserProfileComponent implements OnInit {
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      fullName: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       dropdownGroup: this.formBuilder.group({
         country: ['', Validators.required],
         province: ['', Validators.required]
       })
     });
+  }
+
+  getFirstName(): AbstractControl {
+    return this.userProfileForm.get('firstName');
+  }
+
+  getLastName(): AbstractControl {
+    return this.userProfileForm.get('lastName');
+  }
+
+  getCountry(): AbstractControl {
+    return this.userProfileForm.get('dropdownGroup.country');
+  }
+
+  getProvince(): AbstractControl {
+    return this.userProfileForm.get('dropdownGroup.province');
   }
 
 }
