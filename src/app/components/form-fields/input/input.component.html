@@ -1,8 +1,13 @@
-<label for="{{fieldId}}">{{label}}</label>
+<label for="{{fieldId}}">{{label}}
+  <span *ngIf="isRequired">*</span>
+</label>
 <input id="{{fieldId}}"
        [type]="type"
        (input)="onChange($event.target.value)"
        (blur)="onTouched()"
-       [disabled]="disabled"
        [placeholder]="placeholder">
 
+<div>
+  <span class="error"
+        *ngIf="hasError">{{errorMsg}}</span>
+</div>

@@ -1,14 +1,33 @@
-
-  <form [formGroup]="userProfileForm" (ngSubmit)="onSubmit(userProfileForm.value)">
-    <app-input placeholder="fullName" formControlName="fullName" [label]="'fullName' | translate"></app-input>
-    <section formGroupName="dropdownGroup">
-      <app-dropdown formControlName="country"
-                    [label]="'country' | translate"
-                    [data]="countries"></app-dropdown>
-      <app-dropdown formControlName="province"
-                    [label]="'province' | translate"
-                    [data]="provinces"></app-dropdown>
-    </section>
-    <button type="submit">{{'save' | translate}}</button>
-  </form>
+<form [formGroup]="userProfileForm" (ngSubmit)="onSubmit(userProfileForm.value)">
+  <app-input placeholder="{{'firstName' | translate}}"
+             formControlName="firstName"
+             [label]="'firstName' | translate"
+             [isRequired]="true"
+             [hasError]="getFirstName().invalid && getFirstName().touched"
+             [errorMsg]="'Error Last Name'"></app-input>
+  <app-input placeholder="{{'lastName' | translate}}"
+             formControlName="lastName"
+             [label]="'lastName' | translate"
+             [isRequired]="true"
+             [hasError]="getLastName().invalid && getLastName().touched"
+             [errorMsg]="'Error Last Name'"
+             [hidden]="getFirstName().invalid"></app-input>
+  <section formGroupName="dropdownGroup">
+    <app-dropdown formControlName="country"
+                  [label]="'country' | translate"
+                  [data]="countries"
+                  [isRequired]="true"
+                  [hasError]="getCountry().invalid && getCountry().touched"
+                  [errorMsg]="'Error Country'"
+                  [hidden]="getLastName().invalid"></app-dropdown>
+    <app-dropdown formControlName="province"
+                  [label]="'province' | translate"
+                  [data]="provinces"
+                  [isRequired]="true"
+                  [hasError]="getProvince().invalid && getProvince().touched"
+                  [errorMsg]="'Error Province'"
+                  [hidden]="getCountry().invalid"></app-dropdown>
+  </section>
+  <button type="submit" [disabled]="userProfileForm.invalid">{{'save' | translate}}</button>
+</form>
 

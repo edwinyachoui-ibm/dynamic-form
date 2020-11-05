@@ -1,7 +1,8 @@
 {
   "dynamicForm": "Dynamic Form",
   "userProfile": "User Profile",
-  "fullName": "Full Name",
+  "firstName": "First Name",
+  "lastName": "Last Name",
   "age": "Age",
   "email": "Email",
   "validateEmail": "Please enter a valid email address",
