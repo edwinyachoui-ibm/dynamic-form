@@ -12,13 +12,12 @@ import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, Val
   }],
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor, Validators {
-  @Input() data: object;
+  @Input() data: any;
   @Input() label: string;
   @Input() isRequired = false;
   @Input() hasError: boolean;
   @Input() errorMsg: string;
   private value: object;
-  fieldId = `id-${+(new Date())}`;
 
 
   constructor() {}

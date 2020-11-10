@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {observableToBeFn} from 'rxjs/internal/testing/TestScheduler';
+import {TranslateService} from '@ngx-translate/core';
 
 interface Languages {
   code: string;
@@ -18,7 +19,7 @@ export class LanguageComponent implements OnInit {
   ];
   defaultLang;
 
-  constructor() {
+  constructor(private translateService: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -29,7 +30,7 @@ export class LanguageComponent implements OnInit {
   changeLang(lang): void {
     console.log(lang);
     localStorage.setItem('lang', lang);
-    window.location.reload();
+    this.translateService.use(lang);
   }
 
 

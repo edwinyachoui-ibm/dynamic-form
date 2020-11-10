@@ -1,7 +1,7 @@
-<label for="{{fieldId}}">{{label}}
+<label>{{label}}
   <span *ngIf="isRequired">*</span>
 </label>
-<input id="{{fieldId}}"
+<input [attr.aria-label]="label"
        [type]="type"
        (input)="onChange($event.target.value)"
        (blur)="onTouched()"

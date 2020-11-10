@@ -5,9 +5,19 @@
   "lastName": "Last Name",
   "age": "Age",
   "email": "Email",
+  "phoneNumber": "Phone Number",
   "validateEmail": "Please enter a valid email address",
   "validateAge": "Please enter a valid age",
   "country": "Country",
   "province": "Province",
-  "city": "City"
+  "city": "City",
+  "canada": "Canada EN",
+  "us": "US EN",
+  "qc": "QUEBEC EN",
+  "bc": "BC EN",
+  "on": "ONTARIO  EN",
+  "cali": "CALIFORNIA  EN",
+  "fl": "FLORIDA  EN",
+  "tx": "TEXAS  EN"
+
 }

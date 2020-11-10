@@ -1,10 +1,10 @@
-<label for="{{fieldId}}">{{label}}</label>
+<label>{{label}}</label>
   <select
-    id="{{fieldId}}"
+    [attr.aria-label]="label"
     (input)="onChange($event.target.value)"
     (blur)="onTouched()">
     <option [ngValue]="null">Select a {{label}}</option>
-    <option *ngFor="let entry of data" [value]="entry.value">{{entry.value}}</option>
+    <option *ngFor="let entry of data" [value]="entry.value">{{entry.label}}</option>
   </select>
 <div>
   <span class="error"

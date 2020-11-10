@@ -8,3 +8,8 @@ form, section {
 app-input, app-dropdown {
   margin: 2rem 0;
 }
+
+p {
+  margin: 0;
+  padding: 0;
+}
