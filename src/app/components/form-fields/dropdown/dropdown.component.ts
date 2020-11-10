@@ -14,7 +14,7 @@ import {CountriesEnum, ProvincesEnum} from '../../../data/data';
   }],
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor, Validators {
-  @Input() data: MyOption<CountriesEnum | ProvincesEnum, any>;
+  @Input() data: MyOption<CountriesEnum | ProvincesEnum, string>;
   @Input() label: string;
   @Input() isRequired = false;
   @Input() hasError: boolean;
