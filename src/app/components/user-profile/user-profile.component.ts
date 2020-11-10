@@ -14,13 +14,14 @@ export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
   countries: MyOption<CountriesEnum, string>[];
   provinces: MyOption<ProvincesEnum, string>[];
-  formValues: FormValues = {name: '',  isOld: '', isYoung: '', phoneNumber: '', country: '', province: ''};
+  formValues: FormValues = {name: '', isOld: '', isYoung: '', phoneNumber: '', country: '', province: ''};
   showFormValues = false;
 
   constructor(private formBuilder: FormBuilder, private translateService: TranslateService) {
   }
 
   ngOnInit(): void {
+    this.getEnglishTranslation('en', 'firstName');
     const getCanada = mapCountryTranslate.get(CountriesEnum.CANADA);
     const getUS = mapCountryTranslate.get(CountriesEnum.US);
     const getQC = mapProvinceTranslate.get(ProvincesEnum.QUEBEC);
@@ -71,10 +72,12 @@ export class UserProfileComponent implements OnInit {
       .subscribe(formData => {
         this.formValues.name = formData.firstName + ' ' + formData.lastName;
         this.formValues.country = mapCountryTranslate.get(CountriesEnum[formData.dropdownGroup.country]);
-        this.formValues.province = mapProvinceTranslate.get(ProvincesEnum[formData.dropdownGroup.province]);
+        // this.formValues.country = this.getEnglishTranslation('en', mapCountryTranslate.get(CountriesEnum[formData.dropdownGroup.country]));
+        // this.formValues.province = this.getEnglishTranslation('en', mapProvinceTranslate.get(ProvincesEnum[formData.dropdownGroup.province]));
         this.formValues.phoneNumber = formData.phoneNumber;
         formData.age > 50 ? this.formValues.isOld = 'Yes' : this.formValues.isOld = 'No';
         formData.age < 20 ? this.formValues.isYoung = 'Yes' : this.formValues.isYoung = 'No';
+        console.log('this.formValues', this.formValues);
       });
   }
 
@@ -117,6 +120,12 @@ export class UserProfileComponent implements OnInit {
 
   getAge(): AbstractControl {
     return this.userProfileForm.get('age');
+  }
+
+  getEnglishTranslation(lang: string, input: string): any {
+    this.translateService.getTranslation(lang).subscribe(text => {
+      return text[input];
+    });
   }
 
 }

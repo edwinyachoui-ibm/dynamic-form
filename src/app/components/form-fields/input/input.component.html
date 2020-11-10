@@ -1,8 +1,7 @@
 <input [attr.aria-label]="label"
        [type]="type"
        (input)="onChange($event.target.value)"
-       (blur)="onTouched()"
-       [placeholder]="placeholder">
+       (blur)="onTouched()">
 
 <div>
   <span class="error"

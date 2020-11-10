@@ -1,12 +1,10 @@
 <form [formGroup]="userProfileForm">
-  <app-input placeholder="{{'firstName' | translate}}"
-             formControlName="firstName"
+  <app-input formControlName="firstName"
              [label]="'firstName' | translate"
              [isRequired]="true"
              [hasError]="getFirstName().invalid && getFirstName().touched"
              [errorMsg]="'Error Last Name'"></app-input>
-  <app-input placeholder="{{'lastName' | translate}}"
-             formControlName="lastName"
+  <app-input formControlName="lastName"
              [label]="'lastName' | translate"
              [isRequired]="true"
              [hasError]="getLastName().invalid && getLastName().touched"
@@ -29,15 +27,13 @@
                   [errorMsg]="'Error Province'"
                   *ngIf="getCountry().valid"></app-dropdown>
   </section>
-  <app-input placeholder="{{'phoneNumber' | translate}}"
-             formControlName="phoneNumber"
+  <app-input formControlName="phoneNumber"
              [label]="'phoneNumber' | translate"
              [isRequired]="true"
              [hasError]="getPhoneNumber().invalid && getPhoneNumber().touched"
              [errorMsg]="'Error Phone Number'"
              *ngIf="getCountry().valid && getProvince().valid"></app-input>
-  <app-input placeholder="{{'age' | translate}}"
-             formControlName="age"
+  <app-input formControlName="age"
              [label]="'age' | translate"
              [isRequired]="true"
              [hasError]="getAge().invalid && getAge().touched"
