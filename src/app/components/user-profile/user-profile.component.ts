@@ -70,8 +70,8 @@ export class UserProfileComponent implements OnInit {
     this.userProfileForm.valueChanges
       .subscribe(formData => {
         this.formValues.name = formData.firstName + ' ' + formData.lastName;
-        this.formValues.country = formData.dropdownGroup.country;
-        this.formValues.province = formData.dropdownGroup.province;
+        this.formValues.country = mapCountryTranslate.get(CountriesEnum[formData.dropdownGroup.country]);
+        this.formValues.province = mapProvinceTranslate.get(ProvincesEnum[formData.dropdownGroup.province]);
         this.formValues.phoneNumber = formData.phoneNumber;
         formData.age > 50 ? this.formValues.isOld = 'Yes' : this.formValues.isOld = 'No';
         formData.age < 20 ? this.formValues.isYoung = 'Yes' : this.formValues.isYoung = 'No';

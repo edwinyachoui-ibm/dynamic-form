@@ -45,8 +45,6 @@
              *ngIf="getCountry().valid && getProvince().valid"></app-input>
   <button type="submit" [disabled]="userProfileForm.invalid" (click)="onSubmit()">{{'save' | translate}}</button>
 
-  <pre>
-    <p *ngIf="showFormValues">{{formValues | json}}</p>
-  </pre>
+    <pre *ngIf="showFormValues">{{formValues | json}}</pre>
 </form>
 
