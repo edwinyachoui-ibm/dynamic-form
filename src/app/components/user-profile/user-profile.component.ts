@@ -4,6 +4,9 @@ import {CountriesEnum, mapCountryTranslate, mapProvinces, mapProvinceTranslate, 
 import {MyOption} from '../../model/MyOption';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {FormValues} from '../../model/FormValues';
+import {combineLatest, Observable, zip} from 'rxjs';
+import {map} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -13,7 +16,7 @@ import {FormValues} from '../../model/FormValues';
 export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
   countries: MyOption<CountriesEnum, string>[];
-  provinces: MyOption<ProvincesEnum, string>[];
+  provinces: MyOption<ProvincesEnum, string>[] = [];
   formValues: FormValues = {name: '', isOld: '', isYoung: '', phoneNumber: '', country: '', province: ''};
   showFormValues = false;
 
@@ -21,20 +24,17 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEnglishTranslation('en', 'firstName');
     const getCanada = mapCountryTranslate.get(CountriesEnum.CANADA);
     const getUS = mapCountryTranslate.get(CountriesEnum.US);
-    const getQC = mapProvinceTranslate.get(ProvincesEnum.QUEBEC);
-    const getBC = mapProvinceTranslate.get(ProvincesEnum.BC);
-    const getON = mapProvinceTranslate.get(ProvincesEnum.ONTARIO);
-    const getTX = mapProvinceTranslate.get(ProvincesEnum.TEXAS);
-    const getCALI = mapProvinceTranslate.get(ProvincesEnum.CALIFORNIA);
-    const getFL = mapProvinceTranslate.get(ProvincesEnum.FLORIDA);
 
 
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      console.log('getCanada', getCanada);
+
       this.translateService.get([getCanada, getUS])
         .subscribe((countriesTranslation) => {
+          console.log('countriesTranslation', countriesTranslation);
+          console.log('countriesTranslation', countriesTranslation.canada);
           this.countries = [{label: countriesTranslation[getCanada], value: CountriesEnum.CANADA},
             {label: countriesTranslation[getUS], value: CountriesEnum.US}];
         });
@@ -45,24 +45,15 @@ export class UserProfileComponent implements OnInit {
     this.userProfileForm.get('dropdownGroup.country').valueChanges
       .subscribe(country => {
         if (country) {
-          this.translateService.get(mapProvinces.get(country))
-            .subscribe((provinceTranslation) => {
-
-              // whole point of mapping was not to do this
-              if (country === 'CANADA') {
-                this.provinces = [
-                  {label: provinceTranslation[getQC], value: ProvincesEnum.QUEBEC},
-                  {label: provinceTranslation[getON], value: ProvincesEnum.ONTARIO},
-                  {label: provinceTranslation[getBC], value: ProvincesEnum.BC}
-                ];
-              } else {
-                this.provinces = [
-                  {label: provinceTranslation[getCALI], value: ProvincesEnum.CALIFORNIA},
-                  {label: provinceTranslation[getTX], value: ProvincesEnum.TEXAS},
-                  {label: provinceTranslation[getFL], value: ProvincesEnum.FLORIDA}
-                ];
-              }
-            });
+          const provinces = mapProvinces.get(country);
+          const translations$ = provinces.map(key => {
+            return this.translateService.get(mapProvinceTranslate.get(key));
+          });
+          combineLatest(translations$).subscribe(translation => {
+          });
+          this.provinces = provinces.map((province, index) => {
+            return {value: province, label: provinces[index]};
+          });
         } else {
           console.warn('No country');
         }
@@ -70,14 +61,19 @@ export class UserProfileComponent implements OnInit {
 
     this.userProfileForm.valueChanges
       .subscribe(formData => {
-        this.formValues.name = formData.firstName + ' ' + formData.lastName;
-        this.formValues.country = mapCountryTranslate.get(CountriesEnum[formData.dropdownGroup.country]);
-        // this.formValues.country = this.getEnglishTranslation('en', mapCountryTranslate.get(CountriesEnum[formData.dropdownGroup.country]));
-        // this.formValues.province = this.getEnglishTranslation('en', mapProvinceTranslate.get(ProvincesEnum[formData.dropdownGroup.province]));
-        this.formValues.phoneNumber = formData.phoneNumber;
-        formData.age > 50 ? this.formValues.isOld = 'Yes' : this.formValues.isOld = 'No';
-        formData.age < 20 ? this.formValues.isYoung = 'Yes' : this.formValues.isYoung = 'No';
-        console.log('this.formValues', this.formValues);
+        const observable1$ = this.getTranslation(mapCountryTranslate.get(CountriesEnum[formData.dropdownGroup.country]));
+        const observable2$ = this.getTranslation(mapProvinceTranslate.get(ProvincesEnum[formData.dropdownGroup.province]));
+        zip(observable1$, observable2$).subscribe(val => {
+          this.formValues.country = val[0];
+          this.formValues.province = val[1];
+          this.formValues.name = formData.firstName + ' ' + formData.lastName;
+          this.formValues.phoneNumber = formData.phoneNumber;
+          formData.age > 50 ? this.formValues.isOld = 'Yes' : this.formValues.isOld = 'No';
+          formData.age < 20 ? this.formValues.isYoung = 'Yes' : this.formValues.isYoung = 'No';
+        }, error => {
+          console.log('error');
+        });
+
       });
   }
 
@@ -122,10 +118,12 @@ export class UserProfileComponent implements OnInit {
     return this.userProfileForm.get('age');
   }
 
-  getEnglishTranslation(lang: string, input: string): any {
-    this.translateService.getTranslation(lang).subscribe(text => {
-      return text[input];
-    });
+  getTranslation(input: string, lang = 'en'): Observable<string> {
+    return this.translateService.getTranslation(lang)
+      .pipe(map(translations => {
+          return translations[input] ? translations[input] : null;
+        }
+      ));
   }
 
 }

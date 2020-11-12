@@ -28,17 +28,10 @@ export const mapProvinceTranslate = new Map<ProvincesEnum, string>([
   [ProvincesEnum.ONTARIO, marker('on')],
 ]);
 
-export const mapProvinces = new Map<CountriesEnum, string[]>([
-  [CountriesEnum.CANADA, [mapProvinceTranslate.get(ProvincesEnum.QUEBEC),
-    mapProvinceTranslate.get(ProvincesEnum.ONTARIO), mapProvinceTranslate.get(ProvincesEnum.BC)]],
-  [CountriesEnum.US, [mapProvinceTranslate.get(ProvincesEnum.TEXAS),
-    mapProvinceTranslate.get(ProvincesEnum.FLORIDA), mapProvinceTranslate.get(ProvincesEnum.CALIFORNIA)]]
+export const mapProvinces = new Map<CountriesEnum, ProvincesEnum[]>([
+  [CountriesEnum.CANADA, [ProvincesEnum.QUEBEC, ProvincesEnum.ONTARIO, ProvincesEnum.BC]],
+  [CountriesEnum.US, [ProvincesEnum.CALIFORNIA, ProvincesEnum.FLORIDA, ProvincesEnum.TEXAS]]
 ]);
-
-// export const mapProvinces = new Map<CountriesEnum, ProvincesEnum[]>([
-//   [CountriesEnum.CANADA, [ProvincesEnum.QUEBEC, ProvincesEnum.ONTARIO, ProvincesEnum.BC]],
-//   [CountriesEnum.US, [ProvincesEnum.CALIFORNIA, ProvincesEnum.FLORIDA, ProvincesEnum.TEXAS]]
-// ]);
 
 
 
