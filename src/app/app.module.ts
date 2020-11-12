@@ -16,6 +16,7 @@ import { InputComponent } from './components/form-fields/input/input.component';
 import {MatInputModule} from '@angular/material/input';
 import { DropdownComponent } from './components/form-fields/dropdown/dropdown.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { RadioButtonComponent } from './components/form-fields/radio-button/radio-button.component';
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -29,6 +30,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     InputComponent,
     DropdownComponent,
     UserProfileComponent,
+    RadioButtonComponent,
   ],
   imports: [
     BrowserModule,

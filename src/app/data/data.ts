@@ -14,9 +14,19 @@ export enum ProvincesEnum {
   TEXAS = 'TEXAS',
 }
 
+export enum TrumpEnum {
+  YES = 'YES',
+  NO = 'NO'
+}
+
 export const mapCountryTranslate = new Map<CountriesEnum, string>([
   [CountriesEnum.CANADA, marker('canada')],
   [CountriesEnum.US, marker('us')],
+]);
+
+export const mapTrumpTranslate = new Map([
+  [TrumpEnum.YES, marker('trumpYes')],
+  [TrumpEnum.NO, marker('trumpNo')]
 ]);
 
 export const mapProvinceTranslate = new Map<ProvincesEnum, string>([
