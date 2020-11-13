@@ -12,7 +12,7 @@ import {
 import {MyOption} from '../../model/MyOption';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {FormValues} from '../../model/FormValues';
-import {combineLatest, Observable, ObservedValueOf, zip} from 'rxjs';
+import {combineLatest, Observable, zip} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 
@@ -58,12 +58,12 @@ export class UserProfileComponent implements OnInit {
       .subscribe(country => {
         if (country) {
           const provinces = mapProvinces.get(country);
-          let provinceTranslations;
+          let provinceTranslations = [];
 
-          const translations$ = provinces.map(key => {
+          const provinceTranslations$ = provinces.map(key => {
             return this.translateService.get(mapProvinceTranslate.get(key));
           });
-          combineLatest(translations$).subscribe(translation => {
+          combineLatest(provinceTranslations$).subscribe(translation => {
             provinceTranslations = translation;
           });
           console.log('provinces', provinces);
