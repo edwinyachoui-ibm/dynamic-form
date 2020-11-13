@@ -58,18 +58,16 @@ export class UserProfileComponent implements OnInit {
       .subscribe(country => {
         if (country) {
           const provinces = mapProvinces.get(country);
-          let provinceTranslations = [];
 
           const provinceTranslations$ = provinces.map(key => {
             return this.translateService.get(mapProvinceTranslate.get(key));
           });
           combineLatest(provinceTranslations$).subscribe(translation => {
-            provinceTranslations = translation;
+            this.provinces = provinces.map((province, index) => {
+              return {value: province, label: translation[index]};
+            });
           });
-          console.log('provinces', provinces);
-          this.provinces = provinces.map((province, index) => {
-            return {value: province, label: provinceTranslations[index]};
-          });
+
         } else {
           console.warn('No country');
         }
