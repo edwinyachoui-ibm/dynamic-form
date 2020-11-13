@@ -1,5 +1,7 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ValidatorFn, Validators} from '@angular/forms';
+import {MyOption} from '../../../model/MyOption';
+import {CountriesEnum, ProvincesEnum} from '../../../data/data';
 
 @Component({
   selector: 'app-dropdown',
@@ -12,13 +14,12 @@ import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, Val
   }],
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor, Validators {
-  @Input() data: object;
+  @Input() data: MyOption<CountriesEnum | ProvincesEnum, string>;
   @Input() label: string;
   @Input() isRequired = false;
   @Input() hasError: boolean;
   @Input() errorMsg: string;
   private value: object;
-  fieldId = `id-${+(new Date())}`;
 
 
   constructor() {}

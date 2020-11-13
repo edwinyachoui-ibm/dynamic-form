@@ -5,9 +5,18 @@
   "lastName": "Nom de famille",
   "age": "Âge",
   "email": "Couriel",
+  "phoneNumber": "Numéro de Téléphone",
   "validateEmail": "Veuillez saisir une couriel valide",
   "validateAge": "Veuillez entrer un âge valide",
   "country": "Pays",
   "province": "Province",
-  "city": "Ville"
+  "city": "Ville",
+  "canada": "Canada FR",
+  "us": "US FR",
+  "qc": "QUEBEC FR",
+  "bc": "BC FR",
+  "on": "ONTARIO  FR",
+  "cali": "CALIFORNIA  FR",
+  "fl": "FLORIDA  FR",
+  "tx": "TEXAS  FR"
 }

@@ -18,7 +18,6 @@ export class InputComponent implements ControlValueAccessor, OnInit, Validators 
   @Input() isRequired = false;
   @Input() hasError: boolean;
   @Input() errorMsg: string;
-  fieldId = `id-${+(new Date())}`;
   private value: object;
 
   constructor() {}

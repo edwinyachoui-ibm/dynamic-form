@@ -1,7 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CountriesEnum, mapProvinces, ProvincesEnum} from '../../data/data';
+import {CountriesEnum, mapCountryTranslate, mapProvinces, mapProvinceTranslate, ProvincesEnum} from '../../data/data';
 import {MyOption} from '../../model/MyOption';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {FormValues} from '../../model/FormValues';
+import {combineLatest, Observable, zip} from 'rxjs';
+import {map} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -10,46 +15,78 @@ import {MyOption} from '../../model/MyOption';
 })
 export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
-  countries: MyOption<CountriesEnum, CountriesEnum>[];
-  provinces: MyOption<ProvincesEnum, ProvincesEnum>[];
-  displayFields: Array<object>;
+  countries: MyOption<CountriesEnum, string>[];
+  provinces: MyOption<ProvincesEnum, string>[] = [];
+  formValues: FormValues = {name: '', isOld: '', isYoung: '', phoneNumber: '', country: '', province: ''};
+  showFormValues = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private translateService: TranslateService) {
   }
 
   ngOnInit(): void {
-    this.countries = [{value: CountriesEnum.CANADA, label: CountriesEnum.CANADA},
-      {label: CountriesEnum.US, value: CountriesEnum.US}];
-    this.userProfileForm = this.createFormGroup();
-    this.getFirstName().valueChanges
-      .subscribe(firstName => console.log('Full name value changed: ', firstName));
+    const getCanada = mapCountryTranslate.get(CountriesEnum.CANADA);
+    const getUS = mapCountryTranslate.get(CountriesEnum.US);
 
+
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      console.log('getCanada', getCanada);
+
+      this.translateService.get([getCanada, getUS])
+        .subscribe((countriesTranslation) => {
+          console.log('countriesTranslation', countriesTranslation);
+          console.log('countriesTranslation', countriesTranslation.canada);
+          this.countries = [{label: countriesTranslation[getCanada], value: CountriesEnum.CANADA},
+            {label: countriesTranslation[getUS], value: CountriesEnum.US}];
+        });
+    });
+
+
+    this.userProfileForm = this.createFormGroup();
     this.userProfileForm.get('dropdownGroup.country').valueChanges
       .subscribe(country => {
         if (country) {
-          this.userProfileForm.get('dropdownGroup.province').patchValue('');
-          console.log('CountriesEnum', CountriesEnum);
-          console.log('country', country);
-          this.provinces = mapProvinces.get(country)
-            .map(province => ({value: province, label: province}));
-          console.log('this.provinces', this.provinces);
+          const provinces = mapProvinces.get(country);
+          const translations$ = provinces.map(key => {
+            return this.translateService.get(mapProvinceTranslate.get(key));
+          });
+          combineLatest(translations$).subscribe(translation => {
+          });
+          this.provinces = provinces.map((province, index) => {
+            return {value: province, label: provinces[index]};
+          });
         } else {
-          console.log('No country');
+          console.warn('No country');
         }
       });
 
-    this.userProfileForm.get('dropdownGroup.province').valueChanges
-      .subscribe(province => console.log('Province value changed: ', province));
+    this.userProfileForm.valueChanges
+      .subscribe(formData => {
+        const observable1$ = this.getTranslation(mapCountryTranslate.get(CountriesEnum[formData.dropdownGroup.country]));
+        const observable2$ = this.getTranslation(mapProvinceTranslate.get(ProvincesEnum[formData.dropdownGroup.province]));
+        zip(observable1$, observable2$).subscribe(val => {
+          this.formValues.country = val[0];
+          this.formValues.province = val[1];
+          this.formValues.name = formData.firstName + ' ' + formData.lastName;
+          this.formValues.phoneNumber = formData.phoneNumber;
+          formData.age > 50 ? this.formValues.isOld = 'Yes' : this.formValues.isOld = 'No';
+          formData.age < 20 ? this.formValues.isYoung = 'Yes' : this.formValues.isYoung = 'No';
+        }, error => {
+          console.log('error');
+        });
+
+      });
   }
 
-  onSubmit(formValues): void {
-    console.log(this.userProfileForm.getRawValue());
+  onSubmit(): void {
+    this.showFormValues = true;
   }
 
   createFormGroup(): FormGroup {
     return this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{3}-\d{3}-\d{4}/)]],
+      age: ['', [Validators.required, Validators.min(1), Validators.max(77)]],
       dropdownGroup: this.formBuilder.group({
         country: ['', Validators.required],
         province: ['', Validators.required]
@@ -71,6 +108,22 @@ export class UserProfileComponent implements OnInit {
 
   getProvince(): AbstractControl {
     return this.userProfileForm.get('dropdownGroup.province');
+  }
+
+  getPhoneNumber(): AbstractControl {
+    return this.userProfileForm.get('phoneNumber');
+  }
+
+  getAge(): AbstractControl {
+    return this.userProfileForm.get('age');
+  }
+
+  getTranslation(input: string, lang = 'en'): Observable<string> {
+    return this.translateService.getTranslation(lang)
+      .pipe(map(translations => {
+          return translations[input] ? translations[input] : null;
+        }
+      ));
   }
 
 }
