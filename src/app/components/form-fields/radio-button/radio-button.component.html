@@ -1,0 +1,12 @@
+<fieldset>
+  <legend>{{legend}}</legend>
+  <div *ngFor="let entry of data">
+    <input type="radio" name="format" id="{{entry.label}}"
+           value="{{entry.value}}"
+           (input)="onChange($event.target.value)"
+           (blur)="onTouched()">
+    <label for="{{entry.label}}">{{entry.label | translate}}</label>
+  </div>
+</fieldset>
+
+

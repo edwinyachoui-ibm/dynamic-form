@@ -39,8 +39,14 @@
              [hasError]="getAge().invalid && getAge().touched"
              [errorMsg]="'Error Age'"
              *ngIf="getCountry().valid && getProvince().valid"></app-input>
+  <app-radio-button formControlName="trump"
+                    [legend]="'doYouLikeTrump' | translate"
+                    *ngIf="getAge().valid"
+                    [data]="doYouLikeTrump">
+
+  </app-radio-button>
   <button type="submit" [disabled]="userProfileForm.invalid" (click)="onSubmit()">{{'save' | translate}}</button>
 
-    <pre *ngIf="showFormValues">{{formValues | json}}</pre>
+  <pre *ngIf="showFormValues">{{formValues | json}}</pre>
 </form>
 
