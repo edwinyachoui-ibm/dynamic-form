@@ -15,12 +15,11 @@ export class FormDataService {
 
   getUserInformation(id: string): Observable<UserInfo> {
     return this.http.get<UserInfoModel>(`/api/userInfo/${id}`)
-      .pipe(map(response => new UserInfo(response)));
-      // .pipe(map(response => new UserInfo(response))).pipe(delay(3000));
+      .pipe(map(response => new UserInfo(response))).pipe(delay(3000));
   }
 
   getLocalisationInformation(id: string): Observable<UserLocationDTO> {
     return this.http.get<UserLocationModel>(`/api/userLocation/${id}`)
-      .pipe(map(response => new UserLocationDTO(response)));
+      .pipe(map(response => new UserLocationDTO(response))).pipe(delay(4000));
   }
 }
