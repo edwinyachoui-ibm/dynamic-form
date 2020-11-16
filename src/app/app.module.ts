@@ -17,6 +17,8 @@ import {MatInputModule} from '@angular/material/input';
 import { DropdownComponent } from './components/form-fields/dropdown/dropdown.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { RadioButtonComponent } from './components/form-fields/radio-button/radio-button.component';
+import {FormDataService} from './sevices/form-data.service';
+import { AgePipe } from './pipe/age-pipe';
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -31,6 +33,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DropdownComponent,
     UserProfileComponent,
     RadioButtonComponent,
+    AgePipe,
   ],
   imports: [
     BrowserModule,
@@ -51,8 +54,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       }
     })
   ],
-  providers: [HttpClient],
-  bootstrap: [AppComponent]
+  providers: [HttpClient, FormDataService, AgePipe],
+  bootstrap: [AppComponent],
+  exports: [AgePipe]
 })
 export class AppModule {
 }

@@ -1,0 +1,30 @@
+{
+  "userInfo": [
+    {
+      "id": 45,
+      "FirstName": "Mc Donald",
+      "LoserName": "Trump",
+      "Age": "1946/06/14",
+      "Hotline": "(888) 503-3526"
+    },
+    {
+      "id": 23,
+      "FirstName": "Joe",
+      "LoserName": "Biden",
+      "Age": "1942/11/20",
+      "Hotline": "(888) 889-1234"
+    }
+  ],
+  "userLocation": [
+    {
+      "id": 45,
+      "Country": "US",
+      "ProVince": "TEXAS"
+    },
+    {
+      "id": 23,
+      "Country": "US",
+      "ProVince": "CALIFORNIA"
+    }
+  ]
+}

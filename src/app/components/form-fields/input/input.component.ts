@@ -18,7 +18,7 @@ export class InputComponent implements ControlValueAccessor, OnInit, Validators 
   @Input() isRequired = false;
   @Input() hasError: boolean;
   @Input() errorMsg: string;
-  private value: object;
+  public value: string;
 
   constructor() {}
 
@@ -31,6 +31,7 @@ export class InputComponent implements ControlValueAccessor, OnInit, Validators 
   }
 
   writeValue(value: any): void {
+    console.log('value', value);
     this.value = value;
   }
 

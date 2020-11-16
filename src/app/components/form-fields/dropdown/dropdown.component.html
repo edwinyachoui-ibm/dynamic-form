@@ -1,5 +1,6 @@
   <select
     [attr.aria-label]="label"
+    [(ngModel)]="value"
     (input)="onChange($event.target.value)"
     (blur)="onTouched()">
     <option [ngValue]="null">Select a {{label}}</option>
