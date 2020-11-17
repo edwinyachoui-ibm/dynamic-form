@@ -25,14 +25,7 @@ export class DropdownComponent implements OnInit, ControlValueAccessor, Validato
   constructor() {
   }
 
-  ngOnInit(): void {
-    if (this.data.value in (CountriesEnum || ProvincesEnum)) {
-      console.log('this.data.value found!', this.data.value);
-    } else {
-      this.hasError = true;
-      console.log(this.data.value, 'Does not exist');
-    }
-  }
+  ngOnInit(): void {}
 
   onChange(event): void {
   }

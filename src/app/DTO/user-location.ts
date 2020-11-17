@@ -5,7 +5,7 @@ export class UserLocationDTO {
   province: string;
 
   constructor(private model: UserLocationModel) {
-    this.country = model && model.Country || '';
-    this.province = model && model.ProVince || '';
+    this.country =  model.Country;
+    this.province = model && model.ProVince;
   }
 }

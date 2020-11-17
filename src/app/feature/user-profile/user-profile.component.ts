@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {
   CountriesEnum,
   mapCountryTranslate,
@@ -15,13 +15,15 @@ import {FormValuesModel} from '../../model/form-values.model';
 import {combineLatest, Observable, zip} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {FormDataService} from '../../sevices/form-data.service';
-import {AgePipe} from '../../pipe/age-pipe';
+import {AgePipe} from '../../shared/pipe/age-pipe';
+import {LoaderService} from '../../shared/services/loader.service';
 
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  styleUrls: ['./user-profile.component.css'],
+  providers: [FormData]
 })
 export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
@@ -35,7 +37,8 @@ export class UserProfileComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private translateService: TranslateService,
               private formDataService: FormDataService,
-              private agePipe: AgePipe) {
+              private agePipe: AgePipe,
+              private loaderService: LoaderService) {
   }
 
   ngOnInit(): void {
@@ -48,7 +51,6 @@ export class UserProfileComponent implements OnInit {
         phoneNumber: userInfo.phoneNumber,
         trump: '',
       });
-      this.userProfileForm.markAllAsTouched();
     });
     this.formDataService.getLocalisationInformation(this.currentUserId).subscribe(userLocation => {
       this.userProfileForm.patchValue({
@@ -58,10 +60,12 @@ export class UserProfileComponent implements OnInit {
         }
       });
       this.userProfileForm.markAllAsTouched();
+      this.loaderService.hide();
 
+      console.log('Form Status', this.userProfileForm);
     });
 
-    this.userProfileForm.updateValueAndValidity();
+    // this.userProfileForm.updateValueAndValidity();
     const getCanada = mapCountryTranslate.get(CountriesEnum.CANADA);
     const getUS = mapCountryTranslate.get(CountriesEnum.US);
     const getTrumpYes = mapTrumpTranslate.get(TrumpEnum.YES);
@@ -144,7 +148,7 @@ export class UserProfileComponent implements OnInit {
       age: ['', [Validators.required, Validators.min(1), Validators.max(77)]],
       trump: [''],
       dropdownGroup: this.formBuilder.group({
-        country: ['', Validators.required],
+        country: ['', [Validators.required]],
         province: ['', Validators.required]
       })
     });
