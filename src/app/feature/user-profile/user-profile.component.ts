@@ -13,12 +13,13 @@ import {MyOptionModel} from '../../model/my-option.model';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {FormValuesModel} from '../../model/form-values.model';
 import {combineLatest, Observable, zip} from 'rxjs';
-import {delay, map} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {FormDataService} from '../../sevices/form-data.service';
 import {AgePipe} from '../../shared/pipe/age-pipe';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../store';
 import {hideLoader, showLoader} from '../../store/actions/loader.actions';
+import {PhoneNumberPipe} from '../../shared/pipe/phone-number.pipe';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class UserProfileComponent implements OnInit {
               private translateService: TranslateService,
               private formDataService: FormDataService,
               private agePipe: AgePipe,
+              private phonePipe: PhoneNumberPipe,
               private store: Store<AppState>) {
   }
 
@@ -52,7 +54,7 @@ export class UserProfileComponent implements OnInit {
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
         age: this.agePipe.transform(userInfo.age),
-        phoneNumber: userInfo.phoneNumber,
+        phoneNumber: this.phonePipe.transform(userInfo.phoneNumber),
         trump: '',
       });
     });

@@ -14,6 +14,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
+import { PhoneNumberPipe } from './pipe/phone-number.pipe';
 
 
 @NgModule({
@@ -21,9 +22,11 @@ import {TranslateModule} from '@ngx-translate/core';
     RadioButtonComponent,
     LoaderComponent,
     AgePipe,
+    PhoneNumberPipe,
     InputComponent,
     DropdownComponent,
-    LanguageComponent
+    LanguageComponent,
+    PhoneNumberPipe
   ],
   imports: [
     CommonModule,
@@ -39,7 +42,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 
   ],
-  providers: [AgePipe],
+  providers: [AgePipe, PhoneNumberPipe],
   exports: [
     MatOptionModule,
     MatSelectModule,
@@ -50,6 +53,7 @@ import {TranslateModule} from '@ngx-translate/core';
     RadioButtonComponent,
     LoaderComponent,
     AgePipe,
+    PhoneNumberPipe,
     InputComponent,
     DropdownComponent,
     LanguageComponent,
