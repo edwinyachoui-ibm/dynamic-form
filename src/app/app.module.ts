@@ -4,14 +4,15 @@ import {AppComponent} from './app.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {UserProfileComponent} from './feature/user-profile/user-profile.component';
 import {FormDataService} from './sevices/form-data.service';
-import {LoaderService} from './shared/services/loader.service';
-import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './feature/home/home.component';
+import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import {SharedModule} from './shared/shared.module';
 import {FeatureModule} from './feature/feature.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -36,9 +37,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     RouterModule,
     AppRoutingModule,
     SharedModule,
-    FeatureModule
+    FeatureModule,
+    StoreModule.forRoot(reducers),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [HttpClient, FormDataService, LoaderService],
+  providers: [HttpClient, FormDataService],
   bootstrap: [AppComponent],
   exports: [RouterModule]
 })

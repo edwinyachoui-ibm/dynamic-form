@@ -5,27 +5,26 @@ import {UserInfoModel, UserLocationModel} from '../model/form-values.model';
 import {UserInfo} from '../DTO/user-info';
 import {delay, map} from 'rxjs/operators';
 import {UserLocationDTO} from '../DTO/user-location';
-import {LoaderService} from '../shared/services/loader.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormDataService {
 
-  constructor(private http: HttpClient, private loaderService: LoaderService) { }
+  constructor(private http: HttpClient) { }
 
   getUserInformation(id: string): Observable<UserInfo> {
     return this.http.get<UserInfoModel>(`/api/userInfo/${id}`)
       .pipe(map(response => {
         return new UserInfo(response);
       }))
-      .pipe(delay(3));
+      .pipe(delay(3000));
   }
 
   getLocalisationInformation(id: string): Observable<UserLocationDTO> {
     return this.http.get<UserLocationModel>(`/api/userLocation/${id}`)
       .pipe(map(response => {
         return new UserLocationDTO(response);
-      })).pipe(delay(5));
+      })).pipe(delay(5000));
   }
 }

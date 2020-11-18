@@ -1,5 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {LoaderService} from '../../services/loader.service';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {AppState, selectLoader} from '../../../store';
 
 @Component({
   selector: 'app-loader',
@@ -8,17 +10,15 @@ import {LoaderService} from '../../services/loader.service';
 })
 export class LoaderComponent implements OnInit {
 
-  isLoading = false;
+  loader$: Observable<boolean>;
+  loader: boolean;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
-              private loaderService: LoaderService) {
+              private store: Store<AppState>) {
+    this.loader$ = this.store.pipe(select(selectLoader));
   }
 
   ngOnInit(): void {
-    this.loaderService.onChange.subscribe(isLoading => {
-      this.isLoading = isLoading;
-      this.changeDetectorRef.detectChanges();
-    });
   }
 
 }

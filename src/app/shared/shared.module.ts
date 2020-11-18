@@ -6,7 +6,6 @@ import {LoaderComponent} from './components/loader/loader.component';
 import {InputComponent} from './components/input/input.component';
 import {DropdownComponent} from './components/dropdown/dropdown.component';
 import {LanguageComponent} from './language/language.component';
-import {LoaderService} from './services/loader.service';
 import {MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -40,7 +39,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 
   ],
-  providers: [LoaderService, AgePipe],
+  providers: [AgePipe],
   exports: [
     MatOptionModule,
     MatSelectModule,

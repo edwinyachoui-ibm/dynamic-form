@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "dynamic-form"
+  "defaultProject": "dynamic-form",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

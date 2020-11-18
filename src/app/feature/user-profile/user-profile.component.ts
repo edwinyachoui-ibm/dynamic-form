@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
   CountriesEnum,
   mapCountryTranslate,
@@ -13,10 +13,12 @@ import {MyOptionModel} from '../../model/my-option.model';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {FormValuesModel} from '../../model/form-values.model';
 import {combineLatest, Observable, zip} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {delay, map} from 'rxjs/operators';
 import {FormDataService} from '../../sevices/form-data.service';
 import {AgePipe} from '../../shared/pipe/age-pipe';
-import {LoaderService} from '../../shared/services/loader.service';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../store';
+import {hideLoader, showLoader} from '../../store/actions/loader.actions';
 
 
 @Component({
@@ -33,16 +35,18 @@ export class UserProfileComponent implements OnInit {
   formValues: FormValuesModel = {name: '', isOld: '', isYoung: '', phoneNumber: '', country: '', province: '', trump: ''};
   showFormValues = false;
   currentUserId = '23';
+  loader$: Observable<boolean>;
 
   constructor(private formBuilder: FormBuilder,
               private translateService: TranslateService,
               private formDataService: FormDataService,
               private agePipe: AgePipe,
-              private loaderService: LoaderService) {
+              private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
     this.userProfileForm = this.createFormGroup();
+    this.store.dispatch(showLoader());
     this.formDataService.getUserInformation(this.currentUserId).subscribe(userInfo => {
       this.userProfileForm.patchValue({
         firstName: userInfo.firstName,
@@ -60,9 +64,7 @@ export class UserProfileComponent implements OnInit {
         }
       });
       this.userProfileForm.markAllAsTouched();
-      this.loaderService.hide();
-
-      console.log('Form Status', this.userProfileForm);
+      userLocation ? this.store.dispatch(hideLoader()) : console.log('error');
     });
 
     // this.userProfileForm.updateValueAndValidity();
