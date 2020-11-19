@@ -1,7 +1,7 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
-import {AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ValidatorFn, Validators} from '@angular/forms';
-import {MyOption} from '../../../model/MyOption';
-import {CountriesEnum, ProvincesEnum} from '../../../data/data';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+import {MyOptionModel} from '../../../model/my-option.model';
+import {CountriesEnum, ProvincesEnum} from '../../../enum/enum';
 
 @Component({
   selector: 'app-dropdown',
@@ -14,15 +14,16 @@ import {CountriesEnum, ProvincesEnum} from '../../../data/data';
   }],
 })
 export class DropdownComponent implements OnInit, ControlValueAccessor, Validators {
-  @Input() data: MyOption<CountriesEnum | ProvincesEnum, string>;
+  @Input() data: MyOptionModel<CountriesEnum | ProvincesEnum, string>;
   @Input() label: string;
   @Input() isRequired = false;
   @Input() hasError: boolean;
   @Input() errorMsg: string;
-  private value: object;
+  public value: string;
 
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit(): void {}
 

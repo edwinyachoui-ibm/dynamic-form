@@ -1,5 +1,6 @@
 <input [attr.aria-label]="label"
        [type]="type"
+       [(ngModel)]="value"
        (input)="onChange($event.target.value)"
        (blur)="onTouched()">
 

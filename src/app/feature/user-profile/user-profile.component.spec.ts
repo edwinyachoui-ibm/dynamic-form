@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserProfileComponent } from './user-profile.component';
-import {CountriesEnum, mapProvinces} from '../../data/data';
+import {CountriesEnum, mapProvinces} from '../../enum/enum';
 import {FormBuilder} from '@angular/forms';
 
 describe('UserProfileComponent', () => {

@@ -24,11 +24,9 @@ export class LanguageComponent implements OnInit {
 
   ngOnInit(): void {
     this.defaultLang = localStorage.getItem('lang') || 'en';
-    console.log('Lang', this.defaultLang);
   }
 
   changeLang(lang): void {
-    console.log(lang);
     localStorage.setItem('lang', lang);
     this.translateService.use(lang);
   }

@@ -1,22 +1,18 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {AppComponent} from './app.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSelectModule} from '@angular/material/select';
-import {MatOptionModule} from '@angular/material/core';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
-import {LanguageComponent} from './components/language/language.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import { InputComponent } from './components/form-fields/input/input.component';
-import {MatInputModule} from '@angular/material/input';
-import { DropdownComponent } from './components/form-fields/dropdown/dropdown.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { RadioButtonComponent } from './components/form-fields/radio-button/radio-button.component';
+import {FormDataService} from './sevices/form-data.service';
+import {RouterModule} from '@angular/router';
+import {AppRoutingModule} from './app-routing.module';
+import {SharedModule} from './shared/shared.module';
+import {FeatureModule} from './feature/feature.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -25,34 +21,29 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LanguageComponent,
-    InputComponent,
-    DropdownComponent,
-    UserProfileComponent,
-    RadioButtonComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButtonModule,
     HttpClientModule,
+    AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    RouterModule,
+    AppRoutingModule,
+    SharedModule,
+    FeatureModule,
+    StoreModule.forRoot(reducers),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
-  providers: [HttpClient],
-  bootstrap: [AppComponent]
+  providers: [HttpClient, FormDataService],
+  bootstrap: [AppComponent],
+  exports: [RouterModule]
 })
 export class AppModule {
 }

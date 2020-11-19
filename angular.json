@@ -63,7 +63,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "dynamic-form:build"
+            "browserTarget": "dynamic-form:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -123,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "dynamic-form"
+  "defaultProject": "dynamic-form",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

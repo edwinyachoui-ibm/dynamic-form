@@ -1,7 +1,7 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
-import {MyOption} from '../../../model/MyOption';
-import {TrumpEnum} from '../../../data/data';
+import {MyOptionModel} from '../../../model/my-option.model';
+import {TrumpEnum} from '../../../enum/enum';
 
 @Component({
   selector: 'app-radio-button',
@@ -14,7 +14,7 @@ import {TrumpEnum} from '../../../data/data';
   }],
 })
 export class RadioButtonComponent implements OnInit, ControlValueAccessor, Validators {
-  @Input() data: MyOption<TrumpEnum, string>;
+  @Input() data: MyOptionModel<TrumpEnum, string>;
   @Input() legend: string;
   @Input() isRequired = false;
   private value: object;

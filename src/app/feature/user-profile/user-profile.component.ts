@@ -8,32 +8,68 @@ import {
   mapTrumpTranslate,
   ProvincesEnum,
   TrumpEnum
-} from '../../data/data';
-import {MyOption} from '../../model/MyOption';
+} from '../../enum/enum';
+import {MyOptionModel} from '../../model/my-option.model';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
-import {FormValues} from '../../model/FormValues';
+import {FormValuesModel} from '../../model/form-values.model';
 import {combineLatest, Observable, zip} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {FormDataService} from '../../sevices/form-data.service';
+import {AgePipe} from '../../shared/pipe/age-pipe';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../store';
+import {hideLoader, showLoader} from '../../store/actions/loader.actions';
+import {PhoneNumberPipe} from '../../shared/pipe/phone-number.pipe';
 
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  styleUrls: ['./user-profile.component.css'],
+  providers: [FormData]
 })
 export class UserProfileComponent implements OnInit {
   userProfileForm: FormGroup;
-  countries: MyOption<CountriesEnum, string>[];
-  provinces: MyOption<ProvincesEnum, string>[] = [];
-  doYouLikeTrump: MyOption<TrumpEnum, string>[];
-  formValues: FormValues = {name: '', isOld: '', isYoung: '', phoneNumber: '', country: '', province: '', trump: ''};
+  countries: MyOptionModel<CountriesEnum, string>[];
+  provinces: MyOptionModel<ProvincesEnum, string>[] = [];
+  doYouLikeTrump: MyOptionModel<TrumpEnum, string>[];
+  formValues: FormValuesModel = {name: '', isOld: '', isYoung: '', phoneNumber: '', country: '', province: '', trump: ''};
   showFormValues = false;
+  currentUserId = '23';
+  loader$: Observable<boolean>;
 
-  constructor(private formBuilder: FormBuilder, private translateService: TranslateService) {
+  constructor(private formBuilder: FormBuilder,
+              private translateService: TranslateService,
+              private formDataService: FormDataService,
+              private agePipe: AgePipe,
+              private phonePipe: PhoneNumberPipe,
+              private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
     this.userProfileForm = this.createFormGroup();
+    this.store.dispatch(showLoader());
+    this.formDataService.getUserInformation(this.currentUserId).subscribe(userInfo => {
+      this.userProfileForm.patchValue({
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        age: this.agePipe.transform(userInfo.age),
+        phoneNumber: this.phonePipe.transform(userInfo.phoneNumber),
+        trump: '',
+      });
+    });
+    this.formDataService.getLocalisationInformation(this.currentUserId).subscribe(userLocation => {
+      this.userProfileForm.patchValue({
+        dropdownGroup: {
+          country: userLocation.country,
+          province: userLocation.province
+        }
+      });
+      this.userProfileForm.markAllAsTouched();
+      userLocation ? this.store.dispatch(hideLoader()) : console.log('error');
+    });
+
+    // this.userProfileForm.updateValueAndValidity();
     const getCanada = mapCountryTranslate.get(CountriesEnum.CANADA);
     const getUS = mapCountryTranslate.get(CountriesEnum.US);
     const getTrumpYes = mapTrumpTranslate.get(TrumpEnum.YES);
@@ -56,7 +92,7 @@ export class UserProfileComponent implements OnInit {
     // Load Dropdown Options on Country Change
     this.userProfileForm.get('dropdownGroup.country').valueChanges
       .subscribe(country => {
-        if (country) {
+        if (country && country in CountriesEnum) {
           const provinces = mapProvinces.get(country);
 
           const provinceTranslations$ = provinces.map(key => {
@@ -69,6 +105,7 @@ export class UserProfileComponent implements OnInit {
           });
 
         } else {
+          this.userProfileForm.markAllAsTouched();
           console.warn('No country');
         }
       });
@@ -115,7 +152,7 @@ export class UserProfileComponent implements OnInit {
       age: ['', [Validators.required, Validators.min(1), Validators.max(77)]],
       trump: [''],
       dropdownGroup: this.formBuilder.group({
-        country: ['', Validators.required],
+        country: ['', [Validators.required]],
         province: ['', Validators.required]
       })
     });
@@ -156,7 +193,4 @@ export class UserProfileComponent implements OnInit {
         }
       ));
   }
-
 }
-
-

@@ -1,9 +1,15 @@
 <mat-toolbar color="primary" class="header">
-  <h1>{{'dynamicForm' | translate}}</h1>
+
+  <a routerLinkActive="active"
+     routerLink="/home">Home</a> |
+
+  <a routerLinkActive="active"
+     routerLink="/user-form">{{'dynamicForm' | translate}}</a>
   <app-language></app-language>
 </mat-toolbar>
 <div>
-  <app-user-profile></app-user-profile>
+  <app-loader></app-loader>
+  <router-outlet></router-outlet>
 </div>
 
 
